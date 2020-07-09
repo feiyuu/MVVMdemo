@@ -1,18 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    xmlns:sothree="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <data>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <variable
+            name="vm"
+            type="com.feiyu.mvvmdemo.ui.state.MainActivityViewModel" />
+
+        <variable
+            name="event"
+            type="com.feiyu.mvvmdemo.MainActivity.EventHandler" />
+
+    </data>
+
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/dl"
+        allowDrawerOpen="@{vm.allowDrawerOpen}"
+        bindDrawerListener="@{event}"
+        isOpenDrawer="@{vm.openDrawer}"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.sothree.slidinguppanel.SlidingUpPanelLayout
+            android:id="@+id/sliding_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="bottom"
+            sothree:umanoDragView="@+id/slide_fragment_host"
+            sothree:umanoOverlay="false"
+            sothree:umanoPanelHeight="@dimen/sliding_up_header"
+            sothree:umanoShadowHeight="5dp">
+
+            <fragment
+                android:id="@+id/main_fragment_host"
+                android:name="com.feiyu.mvvmdemo.navigation.fragment.NavHostFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
+                app:defaultNavHost="true"
+                app:navGraph="@navigation/nav_main" />
+
+            <fragment
+                android:id="@+id/slide_fragment_host"
+                android:name="com.feiyu.mvvmdemo.navigation.fragment.NavHostFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
+                app:defaultNavHost="true"
+                app:navGraph="@navigation/nav_slide" />
+
+        </com.sothree.slidinguppanel.SlidingUpPanelLayout>
+
+        <fragment
+            android:id="@+id/drawer_fragment_host"
+            android:name="com.feiyu.mvvmdemo.navigation.fragment.NavHostFragment"
+            android:layout_width="330dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:fitsSystemWindows="true"
+            app:defaultNavHost="true"
+            app:navGraph="@navigation/nav_drawer" />
+
+    </androidx.drawerlayout.widget.DrawerLayout>
+
+</layout>
